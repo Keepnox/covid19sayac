@@ -9,6 +9,7 @@ services:
     ports:
       - 80:3000
     environment:
+      API_URL: https://covid19sayac.xyz
       NUXT_HOST: 0.0.0.0
       NUXT_PORT: 3000
   # web:
