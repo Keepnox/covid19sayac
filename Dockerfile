@@ -12,6 +12,8 @@ COPY . /app
 
 FROM node:12-alpine as builder
 
+ARG API_URL=
+
 WORKDIR /app
 
 COPY --from=dev /app /app

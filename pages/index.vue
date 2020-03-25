@@ -29,16 +29,15 @@
 </template>
 
 <script>
-
 import Fuse from "fuse.js";
 import _ from "lodash";
 import axios from "axios";
-import { format } from 'date-fns'
+import { format } from "date-fns";
 
-import Logo from '~/components/Logo.vue'
-import cardItem from '~/components/CardItem.vue'
-import tableItem from '~/components/TableItem.vue'
-import worldWideData from '@/components/WorldWideData.vue'
+import Logo from "~/components/Logo.vue";
+import cardItem from "~/components/CardItem.vue";
+import tableItem from "~/components/TableItem.vue";
+import worldWideData from "@/components/WorldWideData.vue";
 
 const SortingField = {
   TotalCase: "TotalCase",
@@ -49,10 +48,9 @@ const SortingField = {
 };
 
 const fetchData = async context => {
-  const res = await context.$axios.get("/api/covid19");
+  const res = await context.$axios.get('/api/covid19');
   return res.data.data;
 };
-
 
 function getOrderByArguments(sortingField) {
   switch (sortingField) {
@@ -73,7 +71,6 @@ function getOrderByArguments(sortingField) {
       return [["confirmed"], ["desc"]];
   }
 }
-
 
 export default {
   head: {
@@ -101,31 +98,31 @@ export default {
     updateSearchQuery: "",
     updatedTime: null,
     filterProps: [
-        {
-          title: "Toplam Vaka",
-          props: "TotalCase"
-        },
-        {
-          title: "Aktif Vaka",
-          props: "ActiveCase"
-        },
-        {
-          title: "Ölüm Sayısı",
-          props: "DeathCount"
-        },
-        {
-          title: "Ölüm Oranı",
-          props: "DeathRate"
-        },
-        {
-          title: "A -> Z",
-          props: "Name"
-        }
-      ]
+      {
+        title: "Toplam Vaka",
+        props: "TotalCase"
+      },
+      {
+        title: "Aktif Vaka",
+        props: "ActiveCase"
+      },
+      {
+        title: "Ölüm Sayısı",
+        props: "DeathCount"
+      },
+      {
+        title: "Ölüm Oranı",
+        props: "DeathRate"
+      },
+      {
+        title: "A -> Z",
+        props: "Name"
+      }
+    ]
   }),
   filters: {
-    formatDate: function (value) {
-      return format(value, 'dd.MM.yyyy - HH:mm:ss')
+    formatDate: function(value) {
+      return format(value, "dd.MM.yyyy - HH:mm:ss");
     }
   },
   computed: {
@@ -140,7 +137,9 @@ export default {
 
       if (this.search) {
         data = fuse.search(this.search);
-        data = _.map(data, function (dd) {return dd.item})
+        data = _.map(data, function(dd) {
+          return dd.item;
+        });
       }
 
       return _.chain(data)
@@ -150,7 +149,11 @@ export default {
   },
   asyncData: async context => {
     const data = await fetchData(context);
-    return { data: data.data, updatedTime: new Date(data.updatedTime) , loading: false };
+    return {
+      data: data.data,
+      updatedTime: new Date(data.updatedTime),
+      loading: false
+    };
   },
   methods: {
     getFuse() {
@@ -172,30 +175,24 @@ export default {
     },
     filterSelectBox(props) {
       this.setSortingField(props.target.value);
-    },
-
+    }
   },
-  watch: {
-
-  },
-  mounted() {
-
-  }
-}
+  watch: {},
+  mounted() {}
+};
 </script>
 
 <style lang="sass" >
-  .search
-    border-top: 1px solid #e2e8f0
-    padding-top: 15px
+.search
+  border-top: 1px solid #e2e8f0
+  padding-top: 15px
   button:focus
     outline: 0 !important
   .just-turkey
-    border-top: 1px solid #e2e8f0;
+    border-top: 1px solid #e2e8f0
   .keepnox-list-type-button.active
     background-color: #cbd5e0
   .keep-select-outer
     @media(min-width: 992px)
-      transform: translatex(-10px) !important;
-  
+      transform: translatex(-10px) !important
 </style>
