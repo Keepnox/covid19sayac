@@ -13,6 +13,10 @@ module.exports = {
         hid: "description",
         name: "description",
         content: process.env.npm_package_description || ""
+      },
+      {
+        name: "theme-color",
+        content:'#4a5568' 
       }
     ],
     link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }]
