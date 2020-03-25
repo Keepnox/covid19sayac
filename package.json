@@ -1,0 +1,35 @@
+{
+  "name": "covid-19-sayac-v2.0",
+  "version": "1.0.0",
+  "description": "Covid 19, Corona virüsü hakkında ayrıntılı veriler ve bilgilere ulaşabilirsiniz.",
+  "author": "Kaan Sahin",
+  "private": true,
+  "scripts": {
+    "dev": "cross-env NUXT_HOST=0.0.0.0 NODE_ENV=development nodemon server/index.js --watch server",
+    "build": "nuxt build",
+    "start": "cross-env NUXT_HOST=0.0.0.0 NODE_ENV=production node server/index.js",
+    "generate": "nuxt generate"
+  },
+  "dependencies": {
+    "@nuxtjs/axios": "^5.3.6",
+    "@nuxtjs/pwa": "^3.0.0-0",
+    "cheerio": "^1.0.0-rc.3",
+    "cors": "^2.8.5",
+    "cross-env": "^5.2.0",
+    "date-fns": "^2.11.0",
+    "express": "^4.16.4",
+    "fuse.js": "^5.0.9-beta",
+    "i18n-iso-countries": "^5.1.0",
+    "lodash": "^4.17.15",
+    "lru-cache": "^5.1.1",
+    "nuxt": "^2.0.0"
+  },
+  "devDependencies": {
+    "@nuxtjs/tailwindcss": "^1.0.0",
+    "node-sass": "^4.13.1",
+    "nodemon": "^1.18.9",
+    "pug": "^2.0.3",
+    "pug-plain-loader": "^1.0.0",
+    "sass-loader": "^8.0.2"
+  }
+}
