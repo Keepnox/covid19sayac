@@ -4,7 +4,7 @@
     #keepnoxCard(class="rounded overflow-hidden border my-3 mx-3 py-4 px-4" v-if="")
       .header-info.flex.justify-between
         .title-card.flex-1.text-gray-800 {{item.country | countryNameToTr}}
-        .absolute-death-rate.flex-1(style='height: 40px; min-width: 40px; width: 40px;') {{item.deathRate.toFixed()}}%
+        .absolute-death-rate.flex-1(style='height: 40px; min-width: 40px; width: 40px;') <span class="death-rate-text"> Ölüm Oranı </span> {{item.deathRate.toFixed()}}%
       .covid-data-area.flex.justify-between
         .data-column.data-c-1.flex-1
           .data-title.text-red-400 Toplam Vaka
@@ -121,4 +121,9 @@ export default {
       opacity: 0.8
     100% 
       opacity: 1 
+  .death-rate-text
+    font-size: 11px;
+    display: inline-block;
+    transform: translatey(-10px);
+    color: #8c8c8c;
 </style>
