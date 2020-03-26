@@ -17,7 +17,7 @@
           .data-text.text-teal-400 {{item.recovered}}
       .keepnox-progress
         .text-abs İyileşme Oranı {{ item.recoveredRate.toFixed() }}% - Kalan Vaka {{ item.activeCase  }} </span>
-        .keepnox-status
+        .keepnox-status(:style="`width: ${item.recoveredRate.toFixed()}%`")
       .flex.new-case
         .keepnox-badge.pink(v-if="item.confirmedSinceYesterday > 0")
           strong  {{item.confirmedSinceYesterday}}
