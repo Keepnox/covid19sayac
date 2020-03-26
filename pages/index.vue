@@ -3,7 +3,7 @@
     .info-text.flex(class="flex w-full lg:px-4 lg:mt-5 lg:-mb-2 pt-10 lg:pt-0 px-4 mt-10")
         p.text-gray-600(v-if="updatedTime") Son güncelleme: <span> <strong class="text-gray-700"> {{updatedTime | formatDate}} </strong> </span>
     world-wide-data(v-if="data" :wwData="data[data.length - 1]")
-    card-item(v-if="item.country === 'Turkey'" v-for="item in data" :item="item" class="lg:hidden sm:hidden").just-turkey
+    card-item(v-if="item.country === 'Turkey'" v-for="item in data" :item="item" class="").just-turkey
     .search(class="w-full px-4 mt-2 md:justify-end")
       .flex.flex-wrap
         .navigator-outer(class="md:w-9/12 lg:w-9/12 xl:w-9/12")
