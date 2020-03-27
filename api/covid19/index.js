@@ -35,10 +35,10 @@ covid19Router.get(
     if (!worldCache.get("countries")) {
       console.log("fetching countries");
       const data = await fetchCountries(req, res);
-      worldCache.set("countries", {data: data, updatedTime: new Date()});
+      worldCache.set("countries", { data: data, updatedTime: new Date() });
     }
 
-    console.log('fetched countries')
+    console.log("fetched countries");
     return worldCache.get("countries");
   })
 );
@@ -50,13 +50,12 @@ covid19Router.get(
     if (!turkeyCache.get("turkey")) {
       console.log("fetching turkey");
       const data = await fetchCountry(req, res);
-      turkeyCache.set("turkey", {data: data});
+      turkeyCache.set("turkey", { data: data });
     }
-    console.log('fetched turkey');
+    console.log("fetched turkey");
     return turkeyCache.get("turkey");
   })
 );
-
 
 covid19Router.get(
   "/news/tr",
@@ -65,10 +64,10 @@ covid19Router.get(
     if (!newsCache.get("news")) {
       console.log("fetching news");
       const data = await fetchNews(req, res);
-      newsCache.set("news", {data: data});
+      newsCache.set("news", { data: data });
     }
 
-    console.log('fetched news');
+    console.log("fetched news");
 
     return newsCache.get("news");
   })

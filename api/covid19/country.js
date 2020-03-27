@@ -1,5 +1,6 @@
 import axios from "axios";
 import _ from "lodash";
+import { format } from "date-fns";
 
 const RE_CHART = /\s*series: \[{\s*name: \'(.*)\',\s+.*$\s+.*$\s+data:(.*),/gm;
 
@@ -10,30 +11,28 @@ function extractVariable(str, re) {
 
 export async function fetchCountry(req) {
   const country = req.params.country.toLowerCase();
-  const res = await axios.get(
-    `https://www.worldometers.info/coronavirus/country/${country}`
-  );
+  const res = await axios.get(`http://covid19.soficoop.com/country/${country}`);
+  const data = _.chain(res.data.snapshots)
+    .map(data => {
+      const timestamp = new Date(data.timestamp);
+      const date = format(timestamp, "dd.MM.yyyy");
 
-  const matches = res.data.match(RE_CHART);
-
-  if (!matches) {
-    return null;
-  }
-
-  const data = matches
-    .map(match => match.trim())
-    .map(content => {
+      return { ...data, timestamp, date };
+    })
+    .groupBy(data => data.date)
+    .map(groupItems => _.maxBy(groupItems, item => item.timestamp))
+    .map(item => {
       return {
-        name: extractVariable(content, /name: '(.*)'/),
-        data: extractVariable(content, /data:\s+(\[[0-9,]+\])/)
+        totalCase: item.cases,
+        death: item.deaths,
+        todayDeath: item.todayDeaths,
+        today: item.todayCases,
+        recovered: item.recovered,
+        todayCase: item.todayCases,
+        date: format(new Date(item.timestamp), "dd.MM.yyyy")
       };
     })
-    .map(c => ({
-      name: c.name,
-      data: JSON.parse(c.data)
-    }))
-    .filter(c => c.data)
-    .reduce((acc, c) => ({ ...acc, [_.camelCase(c.name)]: c.data.slice(0, 10) }), {});
+    .value();
 
   return data;
 }

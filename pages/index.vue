@@ -55,28 +55,28 @@ const SortingField = {
 
 const fetchData = async context => {
   try {
-    const res = await context.$axios.get('/api/covid19');
+    const res = await context.$axios.get("/api/covid19");
     return res.data.data;
   } catch (error) {
-    return null
+    return null;
   }
 };
 
 const fetchDailyData = async context => {
   try {
-    const res = await context.$axios.get('/api/covid19/turkey');
+    const res = await context.$axios.get("/api/covid19/tr");
     return res.data.data;
   } catch (error) {
-    return null
+    return null;
   }
 };
 
 const fetchNews = async context => {
   try {
-    const res = await context.$axios.get('/api/covid19/news/tr');
+    const res = await context.$axios.get("/api/covid19/news/tr");
     return res.data.data.data;
   } catch (error) {
-    return null
+    return null;
   }
 };
 
@@ -180,8 +180,8 @@ export default {
   asyncData: async context => {
     const data = await fetchData(context);
     const dailyData = await fetchDailyData(context);
-    let news = await fetchNews(context)
-    news = news.result.slice(0,10)
+    let news = await fetchNews(context);
+    news = news.result.slice(0, 10);
     return {
       data: data.data,
       dailyData,
@@ -190,7 +190,7 @@ export default {
       loading: false
     };
   },
-  
+
   methods: {
     getFuse() {
       if (!this.fuse) {
