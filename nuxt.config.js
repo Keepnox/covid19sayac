@@ -17,7 +17,7 @@ module.exports = {
       {
         name: "theme-color",
         content:'#4a5568' 
-      }
+      },
     ],
     link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }]
   },
@@ -34,7 +34,11 @@ module.exports = {
    */
   serverMiddleware: [{ path: "/api/covid19", handler: "~/api/covid19/index" }],
 
-  plugins: ["~/plugins/EventBus"],
+  plugins: [
+    "~/plugins/EventBus", 
+    {src:'@/plugins/vue-awesome-swiper', mode: 'client'},
+    { src: '@/plugins/vue-carousel', ssr: false }
+  ],
   /*
    ** Nuxt.js dev-modules
    */

@@ -23,7 +23,7 @@
       //-     nuxt-link.inline-block.mt-4.text-gray-500.mr-4(to='/onemli-bilgiler', class='hover:text-gray-700')
       //-       | Önemli Bilgiler
     .flex.mx-full.pr
-      .div(class="keepnox-container" :class="{deactive: isShowNav == false}")
+      .div(class="w-full keepnox-container" :class="{deactive: isShowNav == false}")
         nuxt
       navBar(:isShowNav="isShowNav")
 </template>

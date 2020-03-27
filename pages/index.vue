@@ -1,12 +1,13 @@
 <template lang="pug">
-  .flex.flex-wrap.-px-3(v-if="filteredData")
+  .flex.flex-wrap.-px-3(class="" style="")
     .info-text.flex(class="flex w-full lg:px-4 lg:mt-5 lg:-mb-2 pt-10 lg:pt-0 px-4 mt-10")
         p.text-gray-600(v-if="updatedTime") Son güncelleme: <span> <strong class="text-gray-700"> {{updatedTime | formatDate}} </strong> </span>
     world-wide-data(v-if="data" :wwData="data[data.length - 1]")
     .selam(class="w-full sm:w-1/3 md:w-1/3 lg:w-1/3")
       card-item(v-if="item.country === 'Turkey'" v-for="item in data" :item="item" class="").just-turkey
-    .selam(class="w-full sm:w-2/3 md:w-2/3 lg:w-2/3")
-      daily-chart(:dailyData="dailyData")
+      news(:news="news")
+    .selam(class="flex w-full sm:w-2/3 md:w-2/3 lg:w-2/3")
+      daily-chart(:dailyData="dailyData.data" v-if="dailyData")
     .search(class="w-full px-4 mt-2 md:justify-end")
       .flex.flex-wrap
         .navigator-outer(class="md:w-9/12 lg:w-9/12 xl:w-9/12")
@@ -39,6 +40,7 @@ import { format } from "date-fns";
 
 import Logo from "~/components/Logo.vue";
 import cardItem from "~/components/CardItem.vue";
+import news from "~/components/News.vue";
 import tableItem from "~/components/TableItem.vue";
 import worldWideData from "@/components/WorldWideData.vue";
 import dailyChart from "@/components/Chart/DailyChartOuter.vue";
@@ -52,13 +54,30 @@ const SortingField = {
 };
 
 const fetchData = async context => {
-  const res = await context.$axios.get('/api/covid19');
-  return res.data.data;
+  try {
+    const res = await context.$axios.get('/api/covid19');
+    return res.data.data;
+  } catch (error) {
+    return null
+  }
 };
 
 const fetchDailyData = async context => {
-  const res = await context.$axios.get('/api/covid19/tr');
-  return res.data.data;
+  try {
+    const res = await context.$axios.get('/api/covid19/turkey');
+    return res.data.data;
+  } catch (error) {
+    return null
+  }
+};
+
+const fetchNews = async context => {
+  try {
+    const res = await context.$axios.get('/api/covid19/news/tr');
+    return res.data.data.data;
+  } catch (error) {
+    return null
+  }
 };
 
 function getOrderByArguments(sortingField) {
@@ -98,7 +117,8 @@ export default {
     cardItem,
     tableItem,
     worldWideData,
-    dailyChart
+    dailyChart,
+    news
   },
   data: () => ({
     sortingField: SortingField.TotalCase,
@@ -160,10 +180,12 @@ export default {
   asyncData: async context => {
     const data = await fetchData(context);
     const dailyData = await fetchDailyData(context);
-    
+    let news = await fetchNews(context)
+    news = news.result.slice(0,10)
     return {
       data: data.data,
       dailyData,
+      news,
       updatedTime: new Date(data.updatedTime),
       loading: false
     };
