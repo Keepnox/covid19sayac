@@ -88,6 +88,6 @@ export default {
 <style lang="sass">
 #keepnoxChart
   position: relative
-  height: 422px
   background: white
+  height: auto;
 </style>
