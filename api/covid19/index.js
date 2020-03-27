@@ -4,7 +4,7 @@ import { fetchCountries } from "./countries";
 import { fetchCountry } from "./country";
 
 const cache = new LRU({
-  maxAge: 1000 * 60 * 10
+  maxAge: 1000 
 });
 
 const covid19Router = Router();

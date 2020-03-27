@@ -3,7 +3,10 @@
     .info-text.flex(class="flex w-full lg:px-4 lg:mt-5 lg:-mb-2 pt-10 lg:pt-0 px-4 mt-10")
         p.text-gray-600(v-if="updatedTime") Son güncelleme: <span> <strong class="text-gray-700"> {{updatedTime | formatDate}} </strong> </span>
     world-wide-data(v-if="data" :wwData="data[data.length - 1]")
-    card-item(v-if="item.country === 'Turkey'" v-for="item in data" :item="item" class="").just-turkey
+    .selam(class="w-full sm:w-1/3 md:w-1/3 lg:w-1/3")
+      card-item(v-if="item.country === 'Turkey'" v-for="item in data" :item="item" class="").just-turkey
+    .selam(class="w-full sm:w-2/3 md:w-2/3 lg:w-2/3")
+      daily-chart(:dailyData="dailyData")
     .search(class="w-full px-4 mt-2 md:justify-end")
       .flex.flex-wrap
         .navigator-outer(class="md:w-9/12 lg:w-9/12 xl:w-9/12")
@@ -38,6 +41,7 @@ import Logo from "~/components/Logo.vue";
 import cardItem from "~/components/CardItem.vue";
 import tableItem from "~/components/TableItem.vue";
 import worldWideData from "@/components/WorldWideData.vue";
+import dailyChart from "@/components/Chart/DailyChartOuter.vue";
 
 const SortingField = {
   TotalCase: "TotalCase",
@@ -49,6 +53,11 @@ const SortingField = {
 
 const fetchData = async context => {
   const res = await context.$axios.get('/api/covid19');
+  return res.data.data;
+};
+
+const fetchDailyData = async context => {
+  const res = await context.$axios.get('/api/covid19/tr');
   return res.data.data;
 };
 
@@ -88,7 +97,8 @@ export default {
     Logo,
     cardItem,
     tableItem,
-    worldWideData
+    worldWideData,
+    dailyChart
   },
   data: () => ({
     sortingField: SortingField.TotalCase,
@@ -149,12 +159,16 @@ export default {
   },
   asyncData: async context => {
     const data = await fetchData(context);
+    const dailyData = await fetchDailyData(context);
+    
     return {
       data: data.data,
+      dailyData,
       updatedTime: new Date(data.updatedTime),
       loading: false
     };
   },
+  
   methods: {
     getFuse() {
       if (!this.fuse) {
@@ -183,19 +197,20 @@ export default {
 </script>
 
 <style lang="sass" >
-.search
-  border-top: 1px solid #e2e8f0
-  padding-top: 15px
-  button:focus
-    outline: 0 !important
+html body
   .just-turkey
+    width: 100% !important
+  .search
     border-top: 1px solid #e2e8f0
-  .keepnox-list-type-button.active
-    background-color: #cbd5e0
-  .keep-select-outer
-    @media(min-width: 992px)
-      transform: translatex(-10px) !important
-.navigator-outer
-  @media(max-width: 992px)
-    display: none
+    padding-top: 15px
+    button:focus
+      outline: 0 !important
+    .keepnox-list-type-button.active
+      background-color: #cbd5e0
+    .keep-select-outer
+      @media(min-width: 992px)
+        transform: translatex(-10px) !important
+  .navigator-outer
+    @media(max-width: 992px)
+      display: none
 </style>
