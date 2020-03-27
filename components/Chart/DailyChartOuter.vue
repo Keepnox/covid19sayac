@@ -89,5 +89,5 @@ export default {
 #keepnoxChart
   position: relative
   background: white
-  height: auto;
+  height: auto !important;
 </style>
