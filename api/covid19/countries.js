@@ -14,7 +14,7 @@ export async function fetchCountries() {
   const items = $("table#main_table_countries_today > tbody > tr")
     .map((index, element) => {
       const $el = $(element);
-      const country = $el.find("td:nth-child(1)").text();
+      const country = $el.find("td:nth-child(1)").text().trim();
       const confirmed = parseNumber($el.find("td:nth-child(2)").text());
       const confirmedSinceYesterday = parseNumber(
         $el.find("td:nth-child(3)").text()
@@ -47,6 +47,7 @@ export async function fetchCountries() {
         recoveredRate
       };
     })
+    
     .toArray();
 
   return items;

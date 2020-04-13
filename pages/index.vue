@@ -28,7 +28,7 @@
                 path(d='M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z')
         .search-box(class="w-full md:w-2/12 align-end")
           input#inline-full-name.bg-gray-200.appearance-none.border-2.border.bg-white.rounded.w-full.py-2.px-4.text-gray-700.leading-tight(class='outline-none focus:bg-gray-200' type='text' v-model="search" placeholder='Ülke Ara')
-    card-item(v-if="viewData==='list' && item.country !== 'Total:'" v-for="item in filteredData" :item="item")
+    card-item(v-if="viewData==='list' && item.country !== 'World' && item.country !== 'Total:' && item.country !== 'Europe' && item.country !== 'North America' && item.country !== 'Asia' " v-for="item in filteredData" :item="item")
     table-item(v-if="viewData==='table'" :item="filteredData" )
 </template>
 

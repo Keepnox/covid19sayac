@@ -1,10 +1,10 @@
 <template lang="pug">
   .keepnox-outer(class="w-full sm:w-full md:w-6/12 lg:w-1/3")
     .loading(v-if="!item") YUKLENIYOR
-    #keepnoxCard(class="rounded overflow-hidden border my-3 mx-3 py-4 px-4" v-if="")
+    #keepnoxCard(class="rounded overflow-hidden border my-3 mx-3 py-4 px-4" v-if="item")
       .header-info.flex.justify-between
         .title-card.flex-1.text-gray-800 {{item.country | countryNameToTr}}
-        .absolute-death-rate.flex-1(style='height: 40px; min-width: 40px; width: 40px;') <span class="death-rate-text"> Ölüm Oranı </span> {{item.deathRate.toFixed()}}%
+        .absolute-death-rate.flex-1(style='height: 40px; min-width: 40px; width: 40px;') <span class="death-rate-text"> Ölüm Oranı </span> {{item.deathRate | tofixed}}%
       .covid-data-area.flex.justify-between
         .data-column.data-c-1.flex-1
           .data-title.text-red-400 Toplam Vaka
@@ -16,8 +16,8 @@
           .data-title.text-teal-400 İyileşme
           .data-text.text-teal-400 {{item.recovered}}
       .keepnox-progress
-        .text-abs İyileşme Oranı {{ item.recoveredRate.toFixed() }}% - Kalan Vaka {{ item.activeCase  }} </span>
-        .keepnox-status(:style="`width: ${item.recoveredRate.toFixed()}%`")
+        .text-abs İyileşme Oranı {{ item.recoveredRate | tofixed }}% - Kalan Vaka {{ item.activeCase  }} </span>
+        .keepnox-status(:style="`width: ${item.recoveredRate}%`")
       .flex.new-case
         .keepnox-badge.pink(v-if="item.confirmedSinceYesterday > 0")
           strong  {{item.confirmedSinceYesterday}}
@@ -34,15 +34,15 @@ countries.registerLocale(require("i18n-iso-countries/langs/en.json"))
 export default {
   props: ["item"],
   filters: {
+    tofixed: function (value) {
+      if(!value) return ""
+      return value.toFixed()
+    },
     countryNameToTr: function (value) {
-      if(value === "Total:") {
-        return 'Dünya Geneli'
-      } else {
-        return countries.getName(
-          countries.getAlpha3Code(value, "en"),
-          "TR"
-        ) || value;
-      }
+      return countries.getName(
+        countries.getAlpha3Code(value.replace('\\',''), "en"),
+        "TR"
+      ) || value;
     }
   }
 }
@@ -70,7 +70,7 @@ export default {
         font-size: 14px
         margin-bottom: -10px
       .data-text
-        font-size: 33px
+        font-size: 29px
         font-weight: 500
         letter-spacing: 1px
     .keepnox-progress
